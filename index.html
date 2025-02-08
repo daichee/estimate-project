@@ -2,72 +2,171 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>研修施設見積もりフォーム</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>研修施設見積もりフォーム</h1>
-  <form id="estimateForm">
-    <fieldset>
-      <legend>利用日程</legend>
-      <div class="form-group">
-        <label for="checkinDate">チェックイン日:</label>
-        <input type="date" id="checkinDate" name="checkinDate" required>
+  <div class="container">
+    <h1>研修施設見積もりフォーム</h1>
+    <form id="estimateForm" method="post" onsubmit="return false;">
+      <div class="form-card">
+        <div class="form-card-header">
+          <h2>1. 利用日程</h2>
+        </div>
+        <div class="form-card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="checkinDate">チェックイン日:</label>
+              <input type="date" id="checkinDate" name="checkinDate" required min="2025-01-01" value="2025-03-15">
+            </div>
+            <div class="form-group">
+              <label for="checkoutDate">チェックアウト日:</label>
+              <input type="date" id="checkoutDate" name="checkoutDate" required min="2025-01-01" value="2025-03-17">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="checkoutDate">チェックアウト日:</label>
-        <input type="date" id="checkoutDate" name="checkoutDate" required>
-      </div>
-    </fieldset>
 
-    <fieldset>
-      <legend>グループ利用者（大部屋・中部屋利用対象）</legend>
-      <div class="form-group">
-        <label for="groupAdult">大人:</label>
-        <input type="number" id="groupAdult" name="groupAdult" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="groupMiddle">中・高/大学生:</label>
-        <input type="number" id="groupMiddle" name="groupMiddle" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="groupElementary">小学生:</label>
-        <input type="number" id="groupElementary" name="groupElementary" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="groupPreschool">未就学児:</label>
-        <input type="number" id="groupPreschool" name="groupPreschool" min="0" value="0">
-      </div>
-    </fieldset>
+      <div class="form-card">
+        <div class="form-card-header">
+          <h2>2. 宿泊利用</h2>
+        </div>
+        <div class="form-card-body">
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button type="button" class="tab-button active" data-tab="group">グループ宿泊</button>
+              <button type="button" class="tab-button" data-tab="individual">個室利用</button>
+            </div>
 
-    <fieldset>
-      <legend>個室利用者（個室利用対象）</legend>
-      <div class="form-group">
-        <label for="individualAdult">大人:</label>
-        <input type="number" id="individualAdult" name="individualAdult" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="individualAdultAccompany">大人（合宿付添）:</label>
-        <input type="number" id="individualAdultAccompany" name="individualAdultAccompany" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="individualMiddle">中・高/大学生:</label>
-        <input type="number" id="individualMiddle" name="individualMiddle" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="individualElementary">小学生:</label>
-        <input type="number" id="individualElementary" name="individualElementary" min="0" value="0">
-      </div>
-      <div class="form-group">
-        <label for="individualPreschool">未就学児:</label>
-        <input type="number" id="individualPreschool" name="individualPreschool" min="0" value="0">
-      </div>
-    </fieldset>
+            <div class="tab-content active" id="group-tab">
+              <div class="form-section">
+                <h3>グループ利用人数</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="groupAdult">大人:</label>
+                    <input type="number" id="groupAdult" name="groupAdult" min="0" max="200" value="50">
+                  </div>
+                  <div class="form-group">
+                    <label for="groupMiddle">中・高/大学生:</label>
+                    <input type="number" id="groupMiddle" name="groupMiddle" min="0" max="200" value="50">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="groupElementary">小学生:</label>
+                    <input type="number" id="groupElementary" name="groupElementary" min="0" max="200" value="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="groupPreschool">未就学児:</label>
+                    <input type="number" id="groupPreschool" name="groupPreschool" min="0" max="200" value="0">
+                  </div>
+                </div>
+                <div class="info-box">
+                  <p>※システムが最適な部屋の組み合わせを自動で提案します</p>
+                  <p>利用可能な部屋:</p>
+                  <ul>
+                    <li>被服室(定員35名)</li>
+                    <li>作法室(定員25名)</li>
+                    <li>視聴覚室(定員21名)</li>
+                    <li>理科室(定員10名)</li>
+                    <li>図書室(定員10名)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-    <button type="submit">見積もりを計算する</button>
-  </form>
+            <div class="tab-content" id="individual-tab">
+              <div class="form-section">
+                <h3>個室利用人数(定員5名)</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="individualAdult">大人:</label>
+                    <input type="number" id="individualAdult" name="individualAdult" min="0" max="50" value="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="individualAdultAccompany">大人(合宿付添):</label>
+                    <input type="number" id="individualAdultAccompany" name="individualAdultAccompany" min="0" max="50" value="0">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="individualMiddle">中・高/大学生:</label>
+                    <input type="number" id="individualMiddle" name="individualMiddle" min="0" max="50" value="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="individualElementary">小学生:</label>
+                    <input type="number" id="individualElementary" name="individualElementary" min="0" max="50" value="0">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="individualPreschool">未就学児:</label>
+                  <input type="number" id="individualPreschool" name="individualPreschool" min="0" max="50" value="0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div id="result"></div>
+      <div class="form-card">
+        <div class="form-card-header">
+          <h2>3. 施設利用</h2>
+        </div>
+        <div class="form-card-body">
+          <div class="form-section">
+            <h3>会議室・体育館</h3>
+            <div class="facility-options">
+              <div class="facility-option">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="meetingRoomOption" name="meetingRoomOption">
+                  <span class="checkbox-label">会議室 (+2,000円/時間)</span>
+                </label>
+                <div class="time-input" id="meetingRoomTime" style="display: none;">
+                  <label for="meetingRoomHours">利用時間:</label>
+                  <input type="number" id="meetingRoomHours" name="meetingRoomHours" min="1" max="12" value="2" step="1">
+                  <span>時間</span>
+                </div>
+              </div>
+              <div class="facility-option">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="gymOption" name="gymOption">
+                  <span class="checkbox-label">体育館 (+3,000円/時間)</span>
+                </label>
+                <div class="time-input" id="gymTime" style="display: none;">
+                  <label for="gymHours">利用時間:</label>
+                  <input type="number" id="gymHours" name="gymHours" min="1" max="12" value="1" step="1">
+                  <span>時間</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>食事オプション</h3>
+            <div class="meal-options">
+              <label class="checkbox-container">
+                <input type="checkbox" id="breakfastOption" name="breakfastOption">
+                <span class="checkbox-label">朝食 (+700円/人)</span>
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="dinnerOption" name="dinnerOption">
+                <span class="checkbox-label">夕食 (+1,000円/人)</span>
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="bbqOption" name="bbqOption">
+                <span class="checkbox-label">BBQ (+2,200円/人)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="calculateButton" class="submit-button">見積もりを計算する</button>
+    </form>
+
+    <div id="result" class="result-container"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
