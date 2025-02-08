@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>研修施設見積もりフォーム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>研修施設見積もりフォーム</h1>
+  <form id="estimateForm">
+    <fieldset>
+      <legend>利用日程</legend>
+      <div class="form-group">
+        <label for="checkinDate">チェックイン日:</label>
+        <input type="date" id="checkinDate" name="checkinDate" required>
+      </div>
+      <div class="form-group">
+        <label for="checkoutDate">チェックアウト日:</label>
+        <input type="date" id="checkoutDate" name="checkoutDate" required>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>グループ利用者（大部屋・中部屋利用対象）</legend>
+      <div class="form-group">
+        <label for="groupAdult">大人:</label>
+        <input type="number" id="groupAdult" name="groupAdult" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="groupMiddle">中・高/大学生:</label>
+        <input type="number" id="groupMiddle" name="groupMiddle" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="groupElementary">小学生:</label>
+        <input type="number" id="groupElementary" name="groupElementary" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="groupPreschool">未就学児:</label>
+        <input type="number" id="groupPreschool" name="groupPreschool" min="0" value="0">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>個室利用者（個室利用対象）</legend>
+      <div class="form-group">
+        <label for="individualAdult">大人:</label>
+        <input type="number" id="individualAdult" name="individualAdult" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="individualAdultAccompany">大人（合宿付添）:</label>
+        <input type="number" id="individualAdultAccompany" name="individualAdultAccompany" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="individualMiddle">中・高/大学生:</label>
+        <input type="number" id="individualMiddle" name="individualMiddle" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="individualElementary">小学生:</label>
+        <input type="number" id="individualElementary" name="individualElementary" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="individualPreschool">未就学児:</label>
+        <input type="number" id="individualPreschool" name="individualPreschool" min="0" value="0">
+      </div>
+    </fieldset>
+
+    <button type="submit">見積もりを計算する</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
