@@ -13,6 +13,6 @@ estimate-project/
 
 ## 実行方法
 
-1. VSCode で `my-estimate-project` フォルダを開く。
+1. VSCode で `estimate-project` フォルダを開く。
 2. Live Server や Five Server 拡張機能で `index.html` を起動する。
 3. フォームに必要な情報を入力し、「見積もりを計算する」ボタンをクリックすると、内訳と総合計が表示されます。
