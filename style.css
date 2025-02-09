@@ -272,6 +272,62 @@ select:focus {
   font-size: 14px;
 }
 
+/* 料金内訳テーブルのスタイル */
+.price-breakdown {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.price-breakdown th,
+.price-breakdown td {
+  padding: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.price-breakdown th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  text-align: center;
+}
+
+.price-breakdown td {
+  vertical-align: middle;
+}
+
+.price-breakdown .item {
+  text-align: left;
+  width: 30%;
+}
+
+.price-breakdown .quantity,
+.price-breakdown .unit-price,
+.price-breakdown .unit,
+.price-breakdown .subtotal {
+  text-align: right;
+  width: 17.5%;
+}
+
+.price-breakdown .category {
+  background-color: #f1f5f9;
+  font-weight: 600;
+}
+
+.price-breakdown .category td {
+  padding: 8px 12px;
+}
+
+.price-breakdown tfoot tr {
+  background-color: #f8fafc;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.price-breakdown .grand-total {
+  color: var(--primary-color);
+}
+
 .total-amount {
   background-color: #f8fafc;
   padding: 20px;

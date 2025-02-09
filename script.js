@@ -525,7 +525,7 @@ function validateInput(checkin, checkout, totalGroup, totalIndividual) {
  */
 function generateResultHTML(data) {
   debug('見積もり結果の生成開始:', data);
-  const seasonalNote = data.isSeasonalPeriod ? 
+  const seasonalNote = data.isSeasonalPeriod ?
     '<div class="notice">※3月/4月/5月GW/7月/8月/9月/12月はシーズン料金(通常料金の20%増)が適用されます。</div>' : '';
 
   let roomAssignmentHtml = '';
@@ -534,7 +534,7 @@ function generateResultHTML(data) {
       <div class="room-assignment">
         <p>割り当て部屋:</p>
         <ul>
-          ${Object.entries(data.roomAssignment).map(([type, count]) => 
+          ${Object.entries(data.roomAssignment).map(([type, count]) =>
             `<li>${roomConfigs[type].name} × ${count}室</li>`
           ).join('')}
         </ul>
@@ -553,72 +553,198 @@ function generateResultHTML(data) {
       </div>
     </div>
 
-    ${data.groupTotal > 0 ? `
     <div class="result-section">
-      <div class="result-header">【グループ宿泊】</div>
+      <div class="result-header">【料金内訳】</div>
       <div class="result-detail">
-        ${roomAssignmentHtml}
-        利用人数: ${data.totalGroup}名<br>
-        内訳:<br>
-        <ul>
-          ${data.groupAdult > 0 ? `<li>大人: ${data.groupAdult}名 × ${formatPrice(data.groupAdultFee)}</li>` : ''}
-          ${data.groupMiddle > 0 ? `<li>中・高/大学生: ${data.groupMiddle}名 × ${formatPrice(data.groupMiddleFee)}</li>` : ''}
-          ${data.groupElementary > 0 ? `<li>小学生: ${data.groupElementary}名 × ${formatPrice(data.groupElementaryFee)}</li>` : ''}
-          ${data.groupPreschool > 0 ? `<li>未就学児: ${data.groupPreschool}名 × ${formatPrice(data.groupPreschoolFee)}</li>` : ''}
-        </ul>
-        小計: ${formatPrice(data.groupTotal)}
-      </div>
-    </div>
-    ` : ''}
+        <table class="price-breakdown">
+          <thead>
+            <tr>
+              <th class="item">項目</th>
+              <th class="quantity">数量</th>
+              <th class="unit-price">単価</th>
+              <th class="unit">単位</th>
+              <th class="subtotal">小計</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.groupTotal > 0 ? `
+              <tr class="category">
+                <td colspan="5">グループ宿泊</td>
+              </tr>
+              ${Object.entries(data.roomAssignment || {}).map(([type, count]) => `
+                <tr>
+                  <td class="item">${roomConfigs[type].name}</td>
+                  <td class="quantity">${count}</td>
+                  <td class="unit-price">${formatPrice(data.isSeasonalPeriod ?
+                    Math.round(roomConfigs[type].fee.weekday * seasonalRate) :
+                    roomConfigs[type].fee.weekday)}</td>
+                  <td class="unit">/室</td>
+                  <td class="subtotal">${formatPrice(count * (data.isSeasonalPeriod ?
+                    Math.round(roomConfigs[type].fee.weekday * seasonalRate) :
+                    roomConfigs[type].fee.weekday))}</td>
+                </tr>
+              `).join('')}
+              ${data.groupAdult > 0 ? `
+                <tr>
+                  <td class="item">大人</td>
+                  <td class="quantity">${data.groupAdult}</td>
+                  <td class="unit-price">${formatPrice(data.groupAdultFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.groupAdult * data.groupAdultFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.groupMiddle > 0 ? `
+                <tr>
+                  <td class="item">中・高/大学生</td>
+                  <td class="quantity">${data.groupMiddle}</td>
+                  <td class="unit-price">${formatPrice(data.groupMiddleFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.groupMiddle * data.groupMiddleFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.groupElementary > 0 ? `
+                <tr>
+                  <td class="item">小学生</td>
+                  <td class="quantity">${data.groupElementary}</td>
+                  <td class="unit-price">${formatPrice(data.groupElementaryFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.groupElementary * data.groupElementaryFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.groupPreschool > 0 ? `
+                <tr>
+                  <td class="item">未就学児</td>
+                  <td class="quantity">${data.groupPreschool}</td>
+                  <td class="unit-price">${formatPrice(data.groupPreschoolFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.groupPreschool * data.groupPreschoolFee)}</td>
+                </tr>
+              ` : ''}
+            ` : ''}
 
-    ${data.individualTotal > 0 ? `
-    <div class="result-section">
-      <div class="result-header">【個室利用】</div>
-      <div class="result-detail">
-        必要な個室数: ${data.individualRooms}室<br>
-        利用人数: ${data.totalIndividual}名<br>
-        内訳:<br>
-        <ul>
-          ${data.individualAdult > 0 ? `<li>大人: ${data.individualAdult}名 × ${formatPrice(data.individualAdultFee)}</li>` : ''}
-          ${data.individualAdultAccompany > 0 ? `<li>大人(合宿付添): ${data.individualAdultAccompany}名 × ${formatPrice(data.individualAdultAccompanyFee)}</li>` : ''}
-          ${data.individualMiddle > 0 ? `<li>中・高/大学生: ${data.individualMiddle}名 × ${formatPrice(data.individualMiddleFee)}</li>` : ''}
-          ${data.individualElementary > 0 ? `<li>小学生: ${data.individualElementary}名 × ${formatPrice(data.individualElementaryFee)}</li>` : ''}
-          ${data.individualPreschool > 0 ? `<li>未就学児: ${data.individualPreschool}名 × ${formatPrice(data.individualPreschoolFee)}</li>` : ''}
-        </ul>
-        小計: ${formatPrice(data.individualTotal)}
-      </div>
-    </div>
-    ` : ''}
+            ${data.individualTotal > 0 ? `
+              <tr class="category">
+                <td colspan="5">個室利用</td>
+              </tr>
+              <tr>
+                <td class="item">個室基本料金</td>
+                <td class="quantity">${data.individualRooms}</td>
+                <td class="unit-price">${formatPrice(5000)}</td>
+                <td class="unit">/室</td>
+                <td class="subtotal">${formatPrice(data.individualRooms * 5000 * data.totalDays)}</td>
+              </tr>
+              ${data.individualAdult > 0 ? `
+                <tr>
+                  <td class="item">大人</td>
+                  <td class="quantity">${data.individualAdult}</td>
+                  <td class="unit-price">${formatPrice(data.individualAdultFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.individualAdult * data.individualAdultFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.individualAdultAccompany > 0 ? `
+                <tr>
+                  <td class="item">大人(合宿付添)</td>
+                  <td class="quantity">${data.individualAdultAccompany}</td>
+                  <td class="unit-price">${formatPrice(data.individualAdultAccompanyFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.individualAdultAccompany * data.individualAdultAccompanyFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.individualMiddle > 0 ? `
+                <tr>
+                  <td class="item">中・高/大学生</td>
+                  <td class="quantity">${data.individualMiddle}</td>
+                  <td class="unit-price">${formatPrice(data.individualMiddleFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.individualMiddle * data.individualMiddleFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.individualElementary > 0 ? `
+                <tr>
+                  <td class="item">小学生</td>
+                  <td class="quantity">${data.individualElementary}</td>
+                  <td class="unit-price">${formatPrice(data.individualElementaryFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.individualElementary * data.individualElementaryFee)}</td>
+                </tr>
+              ` : ''}
+              ${data.individualPreschool > 0 ? `
+                <tr>
+                  <td class="item">未就学児</td>
+                  <td class="quantity">${data.individualPreschool}</td>
+                  <td class="unit-price">${formatPrice(data.individualPreschoolFee)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.individualPreschool * data.individualPreschoolFee)}</td>
+                </tr>
+              ` : ''}
+            ` : ''}
 
-    ${data.facilityTotal > 0 ? `
-    <div class="result-section">
-      <div class="result-header">【施設利用】</div>
-      <div class="result-detail">
-        <ul>
-          ${data.meetingRoomHours > 0 ? `<li>会議室: ${data.meetingRoomHours}時間 × ${formatPrice(facilityFees.meetingRoom.hourly)} = ${formatPrice(data.meetingRoomTotal)}</li>` : ''}
-          ${data.gymHours > 0 ? `<li>体育館: ${data.gymHours}時間 × ${formatPrice(facilityFees.gym.hourly)} = ${formatPrice(data.gymTotal)}</li>` : ''}
-        </ul>
-        小計: ${formatPrice(data.facilityTotal)}
-      </div>
-    </div>
-    ` : ''}
+            ${data.facilityTotal > 0 ? `
+              <tr class="category">
+                <td colspan="5">施設利用</td>
+              </tr>
+              ${data.meetingRoomHours > 0 ? `
+                <tr>
+                  <td class="item">会議室</td>
+                  <td class="quantity">${data.meetingRoomHours}</td>
+                  <td class="unit-price">${formatPrice(facilityFees.meetingRoom.hourly)}</td>
+                  <td class="unit">/時間</td>
+                  <td class="subtotal">${formatPrice(data.meetingRoomTotal)}</td>
+                </tr>
+              ` : ''}
+              ${data.gymHours > 0 ? `
+                <tr>
+                  <td class="item">体育館</td>
+                  <td class="quantity">${data.gymHours}</td>
+                  <td class="unit-price">${formatPrice(facilityFees.gym.hourly)}</td>
+                  <td class="unit">/時間</td>
+                  <td class="subtotal">${formatPrice(data.gymTotal)}</td>
+                </tr>
+              ` : ''}
+            ` : ''}
 
-    ${data.mealTotal > 0 ? `
-    <div class="result-section">
-      <div class="result-header">【食事オプション】</div>
-      <div class="result-detail">
-        <ul>
-          ${data.hasBreakfast ? `<li>朝食(${formatPrice(mealFees.breakfast)}/人): ${formatPrice(data.breakfastTotal)}</li>` : ''}
-          ${data.hasDinner ? `<li>夕食(${formatPrice(mealFees.dinner)}/人): ${formatPrice(data.dinnerTotal)}</li>` : ''}
-          ${data.hasBBQ ? `<li>BBQ(${formatPrice(mealFees.bbq)}/人): ${formatPrice(data.bbqTotal)}</li>` : ''}
-        </ul>
-        小計: ${formatPrice(data.mealTotal)}
+            ${data.mealTotal > 0 ? `
+              <tr class="category">
+                <td colspan="5">食事オプション</td>
+              </tr>
+              ${data.hasBreakfast ? `
+                <tr>
+                  <td class="item">朝食</td>
+                  <td class="quantity">${data.totalGroup + data.totalIndividual}</td>
+                  <td class="unit-price">${formatPrice(mealFees.breakfast)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.breakfastTotal)}</td>
+                </tr>
+              ` : ''}
+              ${data.hasDinner ? `
+                <tr>
+                  <td class="item">夕食</td>
+                  <td class="quantity">${data.totalGroup + data.totalIndividual}</td>
+                  <td class="unit-price">${formatPrice(mealFees.dinner)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.dinnerTotal)}</td>
+                </tr>
+              ` : ''}
+              ${data.hasBBQ ? `
+                <tr>
+                  <td class="item">BBQ</td>
+                  <td class="quantity">${data.totalGroup + data.totalIndividual}</td>
+                  <td class="unit-price">${formatPrice(mealFees.bbq)}</td>
+                  <td class="unit">/人</td>
+                  <td class="subtotal">${formatPrice(data.bbqTotal)}</td>
+                </tr>
+              ` : ''}
+            ` : ''}
+          </tbody>
+          <tfoot>
+            <tr class="total">
+              <td colspan="4">合計金額(税込)</td>
+              <td class="grand-total">${formatPrice(data.grandTotal)}</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
-    </div>
-    ` : ''}
-
-    <div class="total-amount">
-      合計金額: ${formatPrice(data.grandTotal)}(税込)
     </div>
   `;
 }
