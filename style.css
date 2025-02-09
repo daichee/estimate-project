@@ -272,69 +272,41 @@ select:focus {
   font-size: 14px;
 }
 
-/* 料金内訳テーブルのスタイル */
-.price-breakdown {
+.price-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 16px 0;
-  font-size: 14px;
+  margin: 20px 0;
 }
 
-.price-breakdown th,
-.price-breakdown td {
-  padding: 12px;
-  border: 1px solid var(--border-color);
+.price-table th,
+.price-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
 }
 
-.price-breakdown th {
-  background-color: #f8fafc;
-  font-weight: 600;
-  text-align: center;
+.price-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
 }
 
-.price-breakdown td {
-  vertical-align: middle;
-}
-
-.price-breakdown .item {
-  text-align: left;
-  width: 30%;
-}
-
-.price-breakdown .quantity,
-.price-breakdown .unit-price,
-.price-breakdown .unit,
-.price-breakdown .subtotal {
+.text-right {
   text-align: right;
-  width: 17.5%;
-}
-
-.price-breakdown .category {
-  background-color: #f1f5f9;
-  font-weight: 600;
-}
-
-.price-breakdown .category td {
-  padding: 8px 12px;
-}
-
-.price-breakdown tfoot tr {
-  background-color: #f8fafc;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.price-breakdown .grand-total {
-  color: var(--primary-color);
 }
 
 .total-amount {
-  background-color: #f8fafc;
-  padding: 20px;
+  font-weight: bold;
+  font-size: 1.2em;
   text-align: right;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--primary-color);
+}
+
+.category td {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.price-table .unit-price,
+.price-table .quantity {
+  text-align: center;
 }
 
 .error-message {

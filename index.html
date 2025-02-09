@@ -15,14 +15,20 @@
           <h2>1. 利用日程</h2>
         </div>
         <div class="form-card-body">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="checkinDate">チェックイン日:</label>
-              <input type="date" id="checkinDate" name="checkinDate" required min="2025-01-01" value="2025-03-15">
+          <div class="form-section">
+            <h3>利用日程</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="checkinDate">チェックイン</label>
+                <input type="date" id="checkinDate" required>
+              </div>
+              <div class="form-group">
+                <label for="checkoutDate">チェックアウト</label>
+                <input type="date" id="checkoutDate" required>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="checkoutDate">チェックアウト日:</label>
-              <input type="date" id="checkoutDate" name="checkoutDate" required min="2025-01-01" value="2025-03-17">
+            <div class="info-box">
+              <p>宿泊日数: <span id="stayDuration">2日（平日:0日、休日:2日）（オンシーズン: 2日、オフシーズン: 0日）</span></p>
             </div>
           </div>
         </div>
@@ -44,33 +50,33 @@
                 <h3>グループ利用人数</h3>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="groupAdult">大人:</label>
-                    <input type="number" id="groupAdult" name="groupAdult" min="0" max="200" value="20">
+                    <label for="groupAdult">大人</label>
+                    <input type="number" id="groupAdult" min="0" value="0">
                   </div>
                   <div class="form-group">
-                    <label for="groupMiddle">中・高/大学生:</label>
-                    <input type="number" id="groupMiddle" name="groupMiddle" min="0" max="200" value="30">
+                    <label for="groupStudent">中・高/大学生</label>
+                    <input type="number" id="groupStudent" min="0" value="0">
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="groupElementary">小学生:</label>
-                    <input type="number" id="groupElementary" name="groupElementary" min="0" max="200" value="0">
+                    <label for="groupElementary">小学生</label>
+                    <input type="number" id="groupElementary" min="0" value="0">
                   </div>
                   <div class="form-group">
-                    <label for="groupPreschool">未就学児:</label>
-                    <input type="number" id="groupPreschool" name="groupPreschool" min="0" max="200" value="0">
+                    <label for="groupPreschool">未就学児(3歳~)</label>
+                    <input type="number" id="groupPreschool" min="0" value="0">
                   </div>
                 </div>
                 <div class="info-box">
+                  <p>※3月/4月/5月GW/7月/8月/9月/12月はシーズン料金が適用されます。</p>
                   <p>※システムが最適な部屋の組み合わせを自動で提案します</p>
                   <p>利用可能な部屋:</p>
                   <ul>
-                    <li>被服室(定員35名)</li>
-                    <li>作法室(定員25名)</li>
-                    <li>視聴覚室(定員21名)</li>
-                    <li>理科室(定員10名)</li>
-                    <li>図書室(定員10名)</li>
+                    <li>2F 作法室(定員25名)</li>
+                    <li>3F 被服室(定員35名)</li>
+                    <li>3F 視聴覚室(定員21名)</li>
+                    <li>3F 図書室(定員10名)</li>
                   </ul>
                 </div>
               </div>
@@ -81,27 +87,27 @@
                 <h3>個室利用人数(定員5名)</h3>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="individualAdult">大人:</label>
-                    <input type="number" id="individualAdult" name="individualAdult" min="0" max="50" value="0">
+                    <label for="individualAdult">大人</label>
+                    <input type="number" id="individualAdult" min="0" value="0">
                   </div>
                   <div class="form-group">
-                    <label for="individualAdultAccompany">大人(合宿付添):</label>
-                    <input type="number" id="individualAdultAccompany" name="individualAdultAccompany" min="0" max="50" value="0">
+                    <label for="individualAdultAccompany">大人(合宿付添)</label>
+                    <input type="number" id="individualAdultAccompany" min="0" value="0">
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="individualMiddle">中・高/大学生:</label>
-                    <input type="number" id="individualMiddle" name="individualMiddle" min="0" max="50" value="0">
+                    <label for="individualStudent">中・高/大学生</label>
+                    <input type="number" id="individualStudent" min="0" value="0">
                   </div>
                   <div class="form-group">
-                    <label for="individualElementary">小学生:</label>
-                    <input type="number" id="individualElementary" name="individualElementary" min="0" max="50" value="0">
+                    <label for="individualElementary">小学生</label>
+                    <input type="number" id="individualElementary" min="0" value="0">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="individualPreschool">未就学児:</label>
-                  <input type="number" id="individualPreschool" name="individualPreschool" min="0" max="50" value="0">
+                  <label for="individualPreschool">未就学児(3歳~)</label>
+                  <input type="number" id="individualPreschool" min="0" value="0">
                 </div>
               </div>
             </div>
